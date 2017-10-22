@@ -1,4 +1,4 @@
-import org.apache.commons.lang3.StringUtils;
+import utils.CLIParser;
 
 public class StringMaker {
 
@@ -8,11 +8,7 @@ public class StringMaker {
         this.parser = parser;
     }
 
-    private String upcaseString(String string) {
-        return StringUtils.capitalize(string);
-    }
-
     public String retrieveInput(String[] args) {
-        return upcaseString(parser.parseInput(args));
+        return parser.parseInput(args);
     }
 }
