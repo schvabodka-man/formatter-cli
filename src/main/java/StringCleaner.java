@@ -1,5 +1,7 @@
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +22,7 @@ public class StringCleaner {
 
     public String cleanString(String string) {
         return Stream.of(string).map(this::makeSpacing).map(this::downcaseAll).map(this::upcaseString)
-                //.map(this::upcaseBeginningOfEachSentence)
+                .map(this::upcaseBeginningOfEachSentence)
                 .collect(Collectors.toList()).get(0);
     }
 
@@ -33,6 +35,11 @@ public class StringCleaner {
     }
 
     private String upcaseBeginningOfEachSentence(String string) {
-        return StringUtils.replaceAll(string, "[\\.!?]\\s[a-z]", "$1".toUpperCase());
+        Matcher matcher = Pattern.compile("[\\.!?]\\s[a-z]").matcher(string);
+        String cleaned = string;
+        while (matcher.find()) {
+            cleaned = StringUtils.replace(cleaned, matcher.group(0), matcher.group().toUpperCase()); //a little bit of immutability goes here. Instead of StringBuilder
+        }
+        return cleaned;
     }
 }
