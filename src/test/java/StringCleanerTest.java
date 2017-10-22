@@ -24,4 +24,12 @@ public class StringCleanerTest {
         String result = cleaner.cleanString(test);
         Assert.assertEquals(expected, result);
     }
+
+    @Test
+    public void testMultipleSentences() {
+        String test = "test123. Test 456.test. test0000.test? ";
+        String expected = "Test123. Test 456. Test. Test0000. Test?";
+        String result = cleaner.cleanString(test);
+        Assert.assertEquals(expected, result);
+    }
 }

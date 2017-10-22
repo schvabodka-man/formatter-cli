@@ -9,10 +9,10 @@ public class StringCleaner {
 
     private String makeSpacing(String string) {
         //Java doesn't have monads out of the box so i'm making my own sort of monad
-        return Stream.of(string).map(val -> StringUtils.replaceAll(val, "\\s*?,(?=\\S)", ", "))
-                .map(commas -> StringUtils.replaceAll(commas, "\\s*?\\.(?=\\S)(?=[^.])", ". "))
-                .map(dots -> StringUtils.replaceAll(dots, "\\s*?:(?=\\S)", ": "))
-                .map(locs -> StringUtils.replaceAll(locs, "\\s*?;(?=\\S)", ";\n"))
+        return Stream.of(string).map(val -> StringUtils.replaceAll(val, "[\\s]*?,[\\s]*?(?=\\S)", ", "))
+                .map(this::properDotSpacing)
+                .map(dots -> StringUtils.replaceAll(dots, "[\\s]*?:[\\s]*?(?=\\S)", ": "))
+                .map(locs -> StringUtils.replaceAll(locs, "[\\s]*?;+[\\s]*?(?=\\S)", ";\n"))
                 .map(semilocs -> StringUtils.replaceAll(semilocs, "[\\.+] $", "."))
                 .map(lastdot -> StringUtils.replaceAll(lastdot, "[?] $", "?"))
                 .map(lastquestion -> StringUtils.replaceAll(lastquestion, "[!] $", "!"))
@@ -34,11 +34,20 @@ public class StringCleaner {
         return StringUtils.lowerCase(string);
     }
 
+    private String properDotSpacing(String string) {
+        Matcher matcher = Pattern.compile("[\\s]*?\\.+[\\s]*?(?=\\S)").matcher(string);
+        String cleaned = string;
+        while (matcher.find()) {
+            cleaned = StringUtils.replace(cleaned, matcher.group(0), matcher.group(0).replaceAll(" +", "") + " ");
+        }
+        return cleaned;
+    }
+
     private String upcaseBeginningOfEachSentence(String string) {
         Matcher matcher = Pattern.compile("[\\.!?]\\s[a-z]").matcher(string);
         String cleaned = string;
         while (matcher.find()) {
-            cleaned = StringUtils.replace(cleaned, matcher.group(0), matcher.group().toUpperCase()); //a little bit of immutability goes here. Instead of StringBuilder
+            cleaned = StringUtils.replace(cleaned, matcher.group(0), matcher.group(0).toUpperCase()); //a little bit of immutability goes here. Instead of StringBuilder
         }
         return cleaned;
     }
