@@ -30,15 +30,23 @@ public class StringCleanerTest {
     @Test
     public void testQuotes() {
         String test = "« Test » ❝Test ❞ ❛ Test❜";
-        String expected = "«test» ❝test❞ ❛test❜";
+        String expected = "«Test» ❝test❞ ❛test❜";
         String result = cleaner.cleanString(test);
         Assert.assertEquals(expected, result);
     }
 
     @Test
     public void testMultipleSentences() {
-        String test = "test123. Test 456.test. test0000.test? ";
-        String expected = "Test123. Test 456. Test. Test0000. Test?";
+        String test = "test123  .  Test 456.test!!test0000.test?????? ";
+        String expected = "Test123. Test 456. Test!! Test0000. Test??????";
+        String result = cleaner.cleanString(test);
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testQuotesOnSentences() {
+        String test = "test 123. \"test\" - testing test. ❛ test, test❜. ❝ Test ❞ - test. ";
+        String expected = "Test 123. \"Test\" - testing test. ❛Test, test❜. ❝Test❞ - test.";
         String result = cleaner.cleanString(test);
         Assert.assertEquals(expected, result);
     }

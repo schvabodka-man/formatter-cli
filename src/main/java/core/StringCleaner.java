@@ -30,7 +30,12 @@ public class StringCleaner {
     }
 
     private String upcaseString(String string) {
-        return StringUtils.capitalize(string);
+        StringBuffer buffer = new StringBuffer();
+        Matcher matcher = Pattern.compile("[a-z]+").matcher(string);
+        matcher.find();
+        matcher.appendReplacement(buffer, StringUtils.capitalize(matcher.group(0)));
+        matcher.appendTail(buffer);
+        return buffer.toString();
     }
 
     private String downcaseAll(String string) {
@@ -50,20 +55,23 @@ public class StringCleaner {
     }
 
     private String properDotSpacing(String string) {
-        Matcher matcher = Pattern.compile("[\\s]*?\\.+[\\s]*?(?=\\S)").matcher(string);
-        String cleaned = string;
+        StringBuffer buffer = new StringBuffer();
+        Matcher matcher = Pattern.compile("[\\s]*?[\\.?!]+[\\s]*?(?=\\S|$)").matcher(string);
         while (matcher.find()) {
-            cleaned = StringUtils.replace(cleaned, matcher.group(0), matcher.group(0).replaceAll(" +", "") + " ");
+            matcher.appendReplacement(buffer, matcher.group(0).replaceAll(" +", "") + " ");
         }
-        return cleaned;
+        matcher.appendTail(buffer);
+        return buffer.toString();
     }
 
     private String upcaseBeginningOfEachSentence(String string) {
-        Matcher matcher = Pattern.compile("[\\.!?]\\s[a-z]").matcher(string);
-        String cleaned = string;
+        StringBuffer buffer = new StringBuffer();
+        Matcher matcher = Pattern.compile("[\\.!?]\\s[^a-z]*?[a-z]").matcher(string);
         while (matcher.find()) {
-            cleaned = StringUtils.replace(cleaned, matcher.group(0), matcher.group(0).toUpperCase()); //a little bit of immutability goes here. Instead of StringBuilder
+            matcher.appendReplacement(buffer, matcher.group(0).toUpperCase());
         }
-        return cleaned;
+        matcher.appendTail(buffer);
+        return buffer.toString();
     }
+
 }
