@@ -1,3 +1,5 @@
+package core;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
@@ -11,6 +13,7 @@ public class StringCleaner {
         //Java doesn't have monads out of the box so i'm making my own sort of monad
         return Stream.of(string).map(val -> StringUtils.replaceAll(val, "[\\s]*?,[\\s]*?(?=\\S)", ", "))
                 .map(this::properDotSpacing)
+                .map(this::niceQuoting)
                 .map(dots -> StringUtils.replaceAll(dots, "[\\s]*?:[\\s]*?(?=\\S)", ": "))
                 .map(locs -> StringUtils.replaceAll(locs, "[\\s]*?;+[\\s]*?(?=\\S)", ";\n"))
                 .map(semilocs -> StringUtils.replaceAll(semilocs, "[\\.+] $", "."))
@@ -32,6 +35,18 @@ public class StringCleaner {
 
     private String downcaseAll(String string) {
         return StringUtils.lowerCase(string);
+    }
+
+    private String niceQuoting(String string) {
+        return Stream.of(string).map(toReplace -> StringUtils.replaceAll(toReplace, "\\(\\s+", "("))
+                .map(toReplace -> StringUtils.replaceAll(toReplace, "\\s+\\)", ")"))
+                .map(toReplace -> StringUtils.replaceAll(toReplace, "«\\s+", "«"))
+                .map(toReplace -> StringUtils.replaceAll(toReplace, "\\s+»", "»"))
+                .map(toReplace -> StringUtils.replaceAll(toReplace, "❝\\s+", "❝"))
+                .map(toReplace -> StringUtils.replaceAll(toReplace, "\\s+❞", "❞"))
+                .map(toReplace -> StringUtils.replaceAll(toReplace, "❛\\s+", "❛"))
+                .map(toReplace -> StringUtils.replaceAll(toReplace, "\\s+❜", "❜"))
+                .collect(Collectors.toList()).get(0);
     }
 
     private String properDotSpacing(String string) {

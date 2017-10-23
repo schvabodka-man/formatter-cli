@@ -1,3 +1,5 @@
+package core;
+
 import utils.CLIParser;
 
 public class StringMaker {

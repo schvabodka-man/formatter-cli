@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import core.StringCleaner;
+
 public class StringCleanerTest {
 
     private StringCleaner cleaner;
@@ -21,6 +23,14 @@ public class StringCleanerTest {
     public void testSecondString() {
         String test = "See Who you ’re working with ... While you’re editing, a separate list lets you quickly see who else is in the presentation.";
         String expected = "See who you’re working with... While you’re editing, a separate list lets you quickly see who else is in the presentation.";
+        String result = cleaner.cleanString(test);
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testQuotes() {
+        String test = "« Test » ❝Test ❞ ❛ Test❜";
+        String expected = "«test» ❝test❞ ❛test❜";
         String result = cleaner.cleanString(test);
         Assert.assertEquals(expected, result);
     }
