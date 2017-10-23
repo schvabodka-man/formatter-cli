@@ -1,4 +1,4 @@
-package core;
+package com.scvh.apps.core;
 
 import org.apache.commons.lang3.StringUtils;
 

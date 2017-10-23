@@ -1,7 +1,7 @@
+package com.scvh.apps.core;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import core.StringCleaner;
 
 public class StringCleanerTest {
 
