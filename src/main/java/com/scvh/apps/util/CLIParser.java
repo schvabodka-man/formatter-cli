@@ -12,13 +12,16 @@ import org.apache.commons.cli.ParseException;
 public class CLIParser {
 
 	private Options getOptions() {
-		Option string = Option.builder("s").hasArg().longOpt("string").desc("Input string").build();
+		Option string = Option.builder("s").required().hasArg().longOpt("string").desc("Input string").build();
 		Option help = Option.builder("h").longOpt("help").desc("Help").build();
 		Option diff = Option.builder("d").longOpt("diff").desc("Show diff").build();
 		Option colors = Option.builder("c").longOpt("color").desc("Colorize output").build();
-		Option ansiNew = Option.builder("n").longOpt("ansi-new").desc("Ansi char for new stuff in diff").build();
-		Option ansiOld = Option.builder("o").longOpt("ansi-old").desc("Ansi char for old stuff in diff").build();
-		return new Options().addOption(string).addOption(help).addOption(diff).addOption(colors).addOption(ansiNew).addOption(ansiOld);
+		Option ansiNew = Option.builder("an").hasArg().longOpt("ansi-new").desc("Ansi char for new stuff in diff").build();
+		Option ansiOld = Option.builder("ao").hasArg().longOpt("ansi-old").desc("Ansi char for old stuff in diff").build();
+		Option charNew = Option.builder("cn").hasArg().longOpt("char-new").desc("Char to show for new stuff in diff").build();
+		Option charOld = Option.builder("co").hasArg().longOpt("char-old").desc("Char to show for old stuff in diff").build();
+		return new Options().addOption(string).addOption(help).addOption(diff).addOption(colors)
+				.addOption(ansiNew).addOption(ansiOld).addOption(charOld).addOption(charNew);
 	}
 
 	public ParamsBuilder parseInput(String[] args) {
@@ -28,18 +31,8 @@ public class CLIParser {
 			if (cli.hasOption("h")) {
 				printHelpAndExit(options);
 			}
-			ParamsBuilder builder = new ParamsBuilder().setInput(cli.getOptionValue("s")).setDiff(cli.hasOption("d"))
-					.setColored(cli.hasOption("c"));
-
-			//TODO Replace to macro or some shit
-			if (cli.hasOption("n")) {
-				builder.setAnsiNew(cli.getOptionValue("n"));
-			}
-			if (cli.hasOption("o")) {
-				builder.setAnsiOld(cli.getOptionValue("o"));
-			}
-
-			return builder;
+			return new ParamsBuilder().setInput(cli.getOptionValue("s")).setAnsiOld(cli.getOptionValue("ao"))
+					.setAnsiNew(cli.getOptionValue("an")).setCharNew(cli.getOptionValue("cn")).setCharOld(cli.getOptionValue("co")).setDiff(cli.hasOption("d")).setColored(cli.hasOption("c"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;

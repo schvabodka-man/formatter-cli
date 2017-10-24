@@ -28,6 +28,16 @@ public class ParamsBuilder {
 		return this;
 	}
 
+	public ParamsBuilder setCharNew(String character) {
+		params.setCharNew(character);
+		return this;
+	}
+
+	public ParamsBuilder setCharOld(String character) {
+		params.setCharOld(character);
+		return this;
+	}
+
 	public ParamsBuilder setDiff(boolean diff) {
 		params.setDiff(diff);
 		return this;

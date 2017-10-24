@@ -14,6 +14,8 @@ public class Printer {
 	private static final String ANSI_RESET = "\u001B[0m";
 	private static final String ANSI_RED = "\u001B[31m";
 	private static final String ANSI_GREEN = "\u001B[32m";
+	private static final String DEFAULT_OLD_CHAR = "⨉⨉";
+	private static final String DEFAULT_NEW_CHAR = "➕➕";
 
 	public void print(OutputParams params) {
 		if (params.isDiff()) {
@@ -36,22 +38,25 @@ public class Printer {
 				.showInlineDiffs(true)
 				.mergeOriginalRevised(true)
 				.inlineDiffByWord(true)
-				.oldTag(f -> getProperAnsiCodeFormat(params, true) + "⨉⨉" + ANSI_RESET)
-				.newTag(f -> getProperAnsiCodeFormat(params, false) + "➕➕" + ANSI_RESET).build();
+				.oldTag(f -> generateDiffSymbol(params, true))
+				.newTag(f -> generateDiffSymbol(params, false)).build();
 		List<DiffRow> rows = generator.generateDiffRows(
 				Collections.singletonList(params.getInput()),
 				Collections.singletonList(params.getOutput()));
 		rows.forEach(row -> System.out.println(row.getOldLine()));
 	}
 
+	private String generateDiffSymbol(OutputParams params, boolean oldOrNew) {
+		return getProperAnsiCodeFormat(params, oldOrNew) + getProperCharacterForDiff(params, oldOrNew) + ANSI_RESET;
+	}
+
+	//TODO Replace on macro
 	private String getProperAnsiCodeFormat(OutputParams params, boolean oldOrNew) {
 		if (oldOrNew && params.getAnsiOld() != null) {
 			return params.getAnsiOld();
-		}
-		if (!oldOrNew && params.getAnsiNew() != null) {
+		} else if (!oldOrNew && params.getAnsiNew() != null) {
 			return params.getAnsiNew();
-		}
-		if (!params.isColored()) {
+		} else if (!params.isColored()) {
 			return ANSI_BOLD;
 		} else {
 			if (!oldOrNew) {
@@ -60,6 +65,20 @@ public class Printer {
 				return ANSI_RED;
 			}
 		}
+	}
 
+	//TODO Replace on macro
+	private String getProperCharacterForDiff(OutputParams params, boolean oldOrNew) {
+		if (oldOrNew && params.getCharOld() != null) {
+			return params.getCharOld();
+		} else if (!oldOrNew && params.getCharNew() != null) {
+			return params.getCharNew();
+		} else {
+			if (!oldOrNew) {
+				return DEFAULT_NEW_CHAR;
+			} else {
+				return DEFAULT_OLD_CHAR;
+			}
+		}
 	}
 }
