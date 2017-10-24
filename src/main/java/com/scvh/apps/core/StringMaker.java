@@ -1,6 +1,7 @@
 package com.scvh.apps.core;
 
 import com.scvh.apps.util.CLIParser;
+import com.scvh.apps.util.pars.ParamsBuilder;
 
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ public class StringMaker {
         this.cliParser = cliParser;
     }
 
-    public String retrieveInput(String[] args) throws IOException {
+    public ParamsBuilder retrieveInput(String[] args) throws IOException {
         return cliParser.parseInput(args);
     }
 }
