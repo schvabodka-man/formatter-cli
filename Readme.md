@@ -11,4 +11,4 @@ App takes args from -s key and simply prints result to stdout.
 
 # Stuff from me
  * "Smart" upcasing of the first char. The app is upcasing not just first char, but first letter in sentence.
- * Indenting of quote marks(«» and stuff liek that)
+ * Indenting of quote marks(«» and stuff like that)
