@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Printer {
 
-	private static final String ANSI_BOLD = "\\033[1m";
-	private static final String ANSI_RESET = "\\033[0m";
-	private static final String ANSI_RED = "\\e[0;31m";
-	private static final String ANSI_GREEN = "\\e[0;31m";
+	private static final String ANSI_BOLD = "\u001B[1m";
+	private static final String ANSI_RESET = "\u001B[0m";
+	private static final String ANSI_RED = "\u001B[31m";
+	private static final String ANSI_GREEN = "\u001B[32m";
 
 	public void print(OutputParams params) {
 		if (params.isDiff()) {
@@ -36,12 +36,23 @@ public class Printer {
 				.showInlineDiffs(true)
 				.mergeOriginalRevised(true)
 				.inlineDiffByWord(true)
-				.oldTag(f -> ANSI_RED + "✕✕" + ANSI_RESET)
-				.newTag(f -> ANSI_GREEN + "++" + ANSI_RESET).build();
+				.oldTag(f -> getProperAnsiCodeFormat(params, true) + "⨉⨉" + ANSI_RESET)
+				.newTag(f -> getProperAnsiCodeFormat(params, false) + "➕➕" + ANSI_RESET).build();
 		List<DiffRow> rows = generator.generateDiffRows(
 				Collections.singletonList(params.getInput()),
 				Collections.singletonList(params.getOutput()));
 		rows.forEach(row -> System.out.println(row.getOldLine()));
 	}
 
+	private String getProperAnsiCodeFormat(OutputParams params, boolean oldOrNew) {
+		if (!params.isColored()) {
+			return ANSI_BOLD;
+		} else {
+			if (oldOrNew) {
+				return ANSI_RED;
+			} else {
+				return ANSI_GREEN;
+			}
+		}
+	}
 }

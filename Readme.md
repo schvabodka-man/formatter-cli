@@ -8,6 +8,7 @@ The app is done with functional stuff and the core logic itself is done in pure 
  
 # CLI interface
 App takes args from -s key and simply prints result to stdout.
+I've implemented stuff like diff and colored output. For full list of options check -h(or --help)
 
 # Stuff from me
  * "Smart" upcasing of the first char. The app is upcasing not just first char, but first letter in sentence.
