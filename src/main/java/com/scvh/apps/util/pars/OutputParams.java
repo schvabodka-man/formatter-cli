@@ -4,9 +4,10 @@ public class OutputParams {
 
 	private String input;
 	private String output;
+	private String ansiNew;
+	private String ansiOld;
 	private boolean diff;
 	private boolean colored;
-	private boolean help;
 
 	public String getOutput() {
 		return output;
@@ -40,7 +41,20 @@ public class OutputParams {
 		this.input = input;
 	}
 
-	public boolean isHelp() {
-		return help;
+	public String getAnsiNew() {
+		return ansiNew;
 	}
+
+	void setAnsiNew(String ansiNew) {
+		this.ansiNew = ansiNew;
+	}
+
+	public String getAnsiOld() {
+		return ansiOld;
+	}
+
+	void setAnsiOld(String ansiOld) {
+		this.ansiOld = ansiOld;
+	}
+
 }

@@ -16,7 +16,9 @@ public class CLIParser {
 		Option help = Option.builder("h").longOpt("help").desc("Help").build();
 		Option diff = Option.builder("d").longOpt("diff").desc("Show diff").build();
 		Option colors = Option.builder("c").longOpt("color").desc("Colorize output").build();
-		return new Options().addOption(string).addOption(help).addOption(diff).addOption(colors);
+		Option ansiNew = Option.builder("n").longOpt("ansi-new").desc("Ansi char for new stuff in diff").build();
+		Option ansiOld = Option.builder("o").longOpt("ansi-old").desc("Ansi char for old stuff in diff").build();
+		return new Options().addOption(string).addOption(help).addOption(diff).addOption(colors).addOption(ansiNew).addOption(ansiOld);
 	}
 
 	public ParamsBuilder parseInput(String[] args) {
@@ -26,8 +28,18 @@ public class CLIParser {
 			if (cli.hasOption("h")) {
 				printHelpAndExit(options);
 			}
-			return new ParamsBuilder().setInput(cli.getOptionValue("s")).setDiff(cli.hasOption("d"))
+			ParamsBuilder builder = new ParamsBuilder().setInput(cli.getOptionValue("s")).setDiff(cli.hasOption("d"))
 					.setColored(cli.hasOption("c"));
+
+			//TODO Replace to macro or some shit
+			if (cli.hasOption("n")) {
+				builder.setAnsiNew(cli.getOptionValue("n"));
+			}
+			if (cli.hasOption("o")) {
+				builder.setAnsiOld(cli.getOptionValue("o"));
+			}
+
+			return builder;
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -36,7 +48,7 @@ public class CLIParser {
 
 	private void printHelpAndExit(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp("formatter-cli", getOptions());
+		formatter.printHelp("formatter-cli", options);
 		System.exit(0);
 	}
 

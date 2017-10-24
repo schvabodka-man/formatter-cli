@@ -45,14 +45,21 @@ public class Printer {
 	}
 
 	private String getProperAnsiCodeFormat(OutputParams params, boolean oldOrNew) {
+		if (oldOrNew && params.getAnsiOld() != null) {
+			return params.getAnsiOld();
+		}
+		if (!oldOrNew && params.getAnsiNew() != null) {
+			return params.getAnsiNew();
+		}
 		if (!params.isColored()) {
 			return ANSI_BOLD;
 		} else {
-			if (oldOrNew) {
-				return ANSI_RED;
-			} else {
+			if (!oldOrNew) {
 				return ANSI_GREEN;
+			} else {
+				return ANSI_RED;
 			}
 		}
+
 	}
 }

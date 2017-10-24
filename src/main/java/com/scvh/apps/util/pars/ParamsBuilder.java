@@ -18,6 +18,16 @@ public class ParamsBuilder {
 		return this;
 	}
 
+	public ParamsBuilder setAnsiNew(String ansi) {
+		params.setAnsiNew(ansi);
+		return this;
+	}
+
+	public ParamsBuilder setAnsiOld(String ansi) {
+		params.setAnsiOld(ansi);
+		return this;
+	}
+
 	public ParamsBuilder setDiff(boolean diff) {
 		params.setDiff(diff);
 		return this;
