@@ -10,6 +10,7 @@ public class OutputParams {
 	private String charOld;
 	private boolean diff;
 	private boolean colored;
+	private boolean interactive;
 
 	public String getOutput() {
 		return output;
@@ -73,5 +74,13 @@ public class OutputParams {
 
 	void setCharOld(String charOld) {
 		this.charOld = charOld;
+	}
+
+	public boolean isInteractive() {
+		return interactive;
+	}
+
+	public void setInteractive(boolean interactive) {
+		this.interactive = interactive;
 	}
 }

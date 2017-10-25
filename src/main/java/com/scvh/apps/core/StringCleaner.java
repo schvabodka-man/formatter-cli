@@ -1,7 +1,7 @@
 package com.scvh.apps.core;
 
 import com.scvh.apps.util.pars.OutputParams;
-import com.scvh.apps.util.pars.ParamsBuilder;
+import com.scvh.apps.util.pars.ParamsBuffer;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,7 +26,7 @@ public class StringCleaner {
 				.collect(Collectors.toList()).get(0);
 	}
 
-	public OutputParams cleanString(ParamsBuilder builder) {
+	public OutputParams cleanString(ParamsBuffer builder) {
 		return builder.setOutput(Stream.of(builder.getTempInputInstance()).map(this::makeSpacing).map(this::downcaseAll).map(this::upcaseString)
 				.map(this::upcaseBeginningOfEachSentence)
 				.collect(Collectors.toList()).get(0)).build();

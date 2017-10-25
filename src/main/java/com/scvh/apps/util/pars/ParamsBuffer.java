@@ -1,50 +1,55 @@
 package com.scvh.apps.util.pars;
 
-public class ParamsBuilder {
+public class ParamsBuffer {
 
 	private OutputParams params;
 
-	public ParamsBuilder() {
+	public ParamsBuffer() {
 		params = new OutputParams();
 	}
 
-	public ParamsBuilder setInput(String input) {
+	public ParamsBuffer setInput(String input) {
 		params.setInput(input);
 		return this;
 	}
 
-	public ParamsBuilder setOutput(String output) {
+	public ParamsBuffer setOutput(String output) {
 		params.setOutput(output);
 		return this;
 	}
 
-	public ParamsBuilder setAnsiNew(String ansi) {
+	public ParamsBuffer setAnsiNew(String ansi) {
 		params.setAnsiNew(ansi);
 		return this;
 	}
 
-	public ParamsBuilder setAnsiOld(String ansi) {
+	public ParamsBuffer setAnsiOld(String ansi) {
 		params.setAnsiOld(ansi);
 		return this;
 	}
 
-	public ParamsBuilder setCharNew(String character) {
+	public ParamsBuffer setCharNew(String character) {
 		params.setCharNew(character);
 		return this;
 	}
 
-	public ParamsBuilder setCharOld(String character) {
+	public ParamsBuffer setCharOld(String character) {
 		params.setCharOld(character);
 		return this;
 	}
 
-	public ParamsBuilder setDiff(boolean diff) {
+	public ParamsBuffer setDiff(boolean diff) {
 		params.setDiff(diff);
 		return this;
 	}
 
-	public ParamsBuilder setColored(boolean colored) {
+	public ParamsBuffer setColored(boolean colored) {
 		params.setColored(colored);
+		return this;
+	}
+
+	public ParamsBuffer setInteractive(boolean interactive) {
+		params.setInteractive(interactive);
 		return this;
 	}
 
