@@ -1,5 +1,8 @@
 package com.scvh.apps.util.pars;
 
+/**
+ * Just a data class that represents I/O params
+ */
 public class OutputParams {
 
 	private String input;
@@ -80,7 +83,7 @@ public class OutputParams {
 		return interactive;
 	}
 
-	public void setInteractive(boolean interactive) {
+	void setInteractive(boolean interactive) {
 		this.interactive = interactive;
 	}
 }

@@ -9,8 +9,14 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * Wrapper around apache commons cli. Is here for parsing cli input
+ */
 public class CLIParser {
 
+	/**
+	 * Simply returns object with all cli args
+	 */
 	private Options getOptions() {
 		Option string = Option.builder("s").required().hasArg().longOpt("string").desc("Input string").build();
 		Option help = Option.builder("h").longOpt("help").desc("Help").build();
@@ -25,11 +31,16 @@ public class CLIParser {
 				.addOption(ansiNew).addOption(ansiOld).addOption(charOld).addOption(charNew).addOption(interactive);
 	}
 
+	/**
+	 * Parse input from cli
+	 * @param args the args from cli
+	 * @return Prepared ParamsBuffer with input params
+	 */
 	public ParamsBuffer parseInput(String[] args) {
 		try {
 			Options options = getOptions();
 			CommandLine cli = new DefaultParser().parse(options, args);
-			if (cli.hasOption("h")) {
+			if (cli.hasOption("h")) { //if there is "help options" print help and finish program
 				printHelpAndExit(options);
 			}
 			return new ParamsBuffer().setInput(cli.getOptionValue("s")).setInteractive(cli.hasOption("i")).setAnsiOld(cli.getOptionValue("ao"))
@@ -40,6 +51,9 @@ public class CLIParser {
 		}
 	}
 
+	/**
+	 * Simply prints list with all possible args as help
+	 */
 	private void printHelpAndExit(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp("formatter-cli", options);

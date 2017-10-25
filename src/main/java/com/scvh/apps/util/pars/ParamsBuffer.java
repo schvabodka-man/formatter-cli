@@ -1,5 +1,8 @@
 package com.scvh.apps.util.pars;
 
+/**
+ * Buffer/builder for {@link OutputParams}
+ */
 public class ParamsBuffer {
 
 	private OutputParams params;
