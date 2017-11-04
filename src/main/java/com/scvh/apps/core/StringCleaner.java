@@ -42,6 +42,7 @@ public class StringCleaner {
 				.map(lastdot -> StringUtils.replaceAll(lastdot, "[?] $", "?"))
 				.map(lastquestion -> StringUtils.replaceAll(lastquestion, "[!] $", "!"))
 				.map(last -> StringUtils.replaceAll(last, "[\\s+]*?’[\\s+]*?", "’"))
+				.map(last -> StringUtils.replaceAll(last, " +", " "))
 				.collect(Collectors.toList()).get(0);
 	}
 
