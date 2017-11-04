@@ -5,21 +5,18 @@ import com.github.difflib.text.DiffRow;
 import com.github.difflib.text.DiffRowGenerator;
 import com.scvh.apps.util.pars.OutputParams;
 
+import org.fusesource.jansi.Ansi;
+
 import java.util.Collections;
 import java.util.List;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * Prints result to stdout
  */
 public class Printer {
 
-	/**
-	 * Nice ANSI codes and chars i'm using by default
-	 */
-	private static final String ANSI_BOLD = "\u001B[1m";
-	private static final String ANSI_RESET = "\u001B[0m";
-	private static final String ANSI_RED = "\u001B[31m";
-	private static final String ANSI_GREEN = "\u001B[32m";
 	private static final String DEFAULT_OLD_CHAR = "⨉⨉";
 	private static final String DEFAULT_NEW_CHAR = "➕➕";
 
@@ -48,11 +45,10 @@ public class Printer {
 	private void printDiff(OutputParams params) {
 		//generate diff params
 		DiffRowGenerator generator = DiffRowGenerator.create()
-				.showInlineDiffs(true)
-				.mergeOriginalRevised(true)
-				.inlineDiffByWord(true)
-				.oldTag(f -> generateDiffSymbol(params, true))
-				.newTag(f -> generateDiffSymbol(params, false)).build();
+				.showInlineDiffs(false)
+				.mergeOriginalRevised(false)
+				.inlineDiffByWord(false)
+				.build();
 		//make diff string
 		List<DiffRow> rows = null;
 		try {
@@ -64,58 +60,26 @@ public class Printer {
 			System.exit(1); //exit after exception
 		}
 		//print it
-		rows.forEach(row -> System.out.println(row.getOldLine()));
+		rows.forEach(row -> System.out.println(generateDiffLine(params, row.getNewLine(), row.getOldLine())));
 	}
 
 	/**
 	 * Simple wrapper for neat generation of diff row
 	 */
-	private String generateDiffSymbol(OutputParams params, boolean oldOrNew) {
-		return getProperAnsiCodeFormat(params, oldOrNew) + getProperCharacterForDiff(params, oldOrNew) + ANSI_RESET;
-	}
-
-	//two pretty similar methods. Pretty much they would look nice with macro
-
-	/**
-	 * This one is here for returning generic ansi codes for removed and added stuff in diff
-	 * Default is {@link Printer#ANSI_RED} and {@link Printer#ANSI_GREEN}
-	 */
-	private String getProperAnsiCodeFormat(OutputParams params, boolean oldOrNew) {
-		//first check if there is user specified codes and if there are return them
-		if (oldOrNew && params.getAnsiOld() != null) {
-			return params.getAnsiOld();
-		} else if (!oldOrNew && params.getAnsiNew() != null) {
-			return params.getAnsiNew();
-		}
-		//if not and input is not set to colored return ANSI_BOLD
-		else if (!params.isColored()) {
-			return ANSI_BOLD;
+	private Ansi generateDiffLine(OutputParams params, String newLine, String oldLine) {
+		Ansi buffer = ansi();
+		if (params.getAnsiOld() != null) {
+			buffer.a(params.getAnsiOld()).a(oldLine).reset().newline();
+		} else if (params.getAnsiNew() != null) {
+			buffer.a(params.getAnsiNew()).a(newLine).reset().newline();
+		} else if (!params.isColored()) {
+			buffer.a(oldLine).reset().newline();
+			buffer.bold().a(newLine).boldOff().reset().newline();
 		} else {
-			//if colored return needed code
-			if (!oldOrNew) {
-				return ANSI_GREEN;
-			} else {
-				return ANSI_RED;
-			}
+			buffer.fgBrightRed().a(oldLine).reset().newline();
+			buffer.fgBrightGreen().a(newLine).reset().newline();
 		}
+		return buffer;
 	}
 
-	/**
-	 * This one is here for returning generic symbols for removed and added stuff in diff
-	 * Default is {@link Printer#DEFAULT_OLD_CHAR} and {@link Printer#DEFAULT_NEW_CHAR}
-	 */
-	private String getProperCharacterForDiff(OutputParams params, boolean oldOrNew) {
-		//the logics is pretty much the same as upper one
-		if (oldOrNew && params.getCharOld() != null) {
-			return params.getCharOld();
-		} else if (!oldOrNew && params.getCharNew() != null) {
-			return params.getCharNew();
-		} else {
-			if (!oldOrNew) {
-				return DEFAULT_NEW_CHAR;
-			} else {
-				return DEFAULT_OLD_CHAR;
-			}
-		}
-	}
 }

@@ -9,8 +9,6 @@ public class OutputParams {
 	private String output;
 	private String ansiNew;
 	private String ansiOld;
-	private String charNew;
-	private String charOld;
 	private boolean diff;
 	private boolean colored;
 	private boolean interactive;
@@ -61,22 +59,6 @@ public class OutputParams {
 
 	void setAnsiOld(String ansiOld) {
 		this.ansiOld = ansiOld;
-	}
-
-	public String getCharNew() {
-		return charNew;
-	}
-
-	void setCharNew(String charNew) {
-		this.charNew = charNew;
-	}
-
-	public String getCharOld() {
-		return charOld;
-	}
-
-	void setCharOld(String charOld) {
-		this.charOld = charOld;
 	}
 
 	public boolean isInteractive() {

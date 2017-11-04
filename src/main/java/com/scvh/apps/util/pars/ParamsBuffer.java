@@ -31,16 +31,6 @@ public class ParamsBuffer {
 		return this;
 	}
 
-	public ParamsBuffer setCharNew(String character) {
-		params.setCharNew(character);
-		return this;
-	}
-
-	public ParamsBuffer setCharOld(String character) {
-		params.setCharOld(character);
-		return this;
-	}
-
 	public ParamsBuffer setDiff(boolean diff) {
 		params.setDiff(diff);
 		return this;

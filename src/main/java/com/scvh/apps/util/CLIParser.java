@@ -25,10 +25,8 @@ public class CLIParser {
 		Option interactive = Option.builder("i").longOpt("interactive").desc("Run app interactively").build();
 		Option ansiNew = Option.builder("an").hasArg().longOpt("ansi-new").desc("Ansi char for new stuff in diff").build();
 		Option ansiOld = Option.builder("ao").hasArg().longOpt("ansi-old").desc("Ansi char for old stuff in diff").build();
-		Option charNew = Option.builder("cn").hasArg().longOpt("char-new").desc("Char to show for new stuff in diff").build();
-		Option charOld = Option.builder("co").hasArg().longOpt("char-old").desc("Char to show for old stuff in diff").build();
 		return new Options().addOption(string).addOption(help).addOption(diff).addOption(colors)
-				.addOption(ansiNew).addOption(ansiOld).addOption(charOld).addOption(charNew).addOption(interactive);
+				.addOption(ansiNew).addOption(ansiOld).addOption(interactive);
 	}
 
 	/**
@@ -44,7 +42,7 @@ public class CLIParser {
 				printHelpAndExit(options);
 			}
 			return new ParamsBuffer().setInput(cli.getOptionValue("s")).setInteractive(cli.hasOption("i")).setAnsiOld(cli.getOptionValue("ao"))
-					.setAnsiNew(cli.getOptionValue("an")).setCharNew(cli.getOptionValue("cn")).setCharOld(cli.getOptionValue("co")).setDiff(cli.hasOption("d")).setColored(cli.hasOption("c"));
+					.setAnsiNew(cli.getOptionValue("an")).setDiff(cli.hasOption("d")).setColored(cli.hasOption("c"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;

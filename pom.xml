@@ -70,6 +70,11 @@
 			<artifactId>java-diff-utils</artifactId>
 			<version>diffutils-2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.fusesource.jansi</groupId>
+			<artifactId>jansi</artifactId>
+			<version>1.16</version>
+		</dependency>
 	</dependencies>
 
 </project>
