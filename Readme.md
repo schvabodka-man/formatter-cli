@@ -36,7 +36,7 @@ Pretty neat stuff, the core logics is in fact purely functional.
 * -s,--string <arg>      Input string, this one is **REQUIRED**. 
 
 # What's used?
-Apache Commons libraries(mostly for cli interface) and diffutils that's it. There is also Junit tests. No bloat.
+Apache Commons libraries(mostly for cli interface), jansi for coloring diffs and diffutils that's it. There is also Junit tests. No bloat.
 
 # Why Java? This stuff should be written on C/Python/Go
 The performance overhead for that small application isn't really that bad at all.
